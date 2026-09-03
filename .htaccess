@@ -1,0 +1,11 @@
+# Amankan root GadgetHub
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+</IfModule>
+
+# Blokir akses langsung ke file konfigurasi dokumentasi/database
+<FilesMatch "\.(sql|md|log)$">
+    Require all denied
+</FilesMatch>
