@@ -14,7 +14,7 @@ if (($_GET['page'] ?? '') === 'cart-add') {
         else { $stmt = $koneksi->prepare('INSERT INTO keranjang (id_user, id_barang, qty, subtotal) VALUES (?, ?, ?, ?)'); $stmt->execute([$idUser, $idBarang, $qty, $qty * $harga]); }
         set_flash('success', 'Produk ditambahkan ke keranjang.');
     }
-    redirect('customer/product/detail.php&id=' . (int)($_POST['id_barang'] ?? 0));
+    redirect('customer/product/detail.php?id=' . (int)($_POST['id_barang'] ?? 0));
 }
 if (($_GET['page'] ?? '') === 'cart-update') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) { $stmt = $koneksi->prepare('SELECT b.harga_barang FROM keranjang k JOIN barang b ON b.id_barang = k.id_barang WHERE k.id_keranjang = ? AND k.id_user = ?'); $stmt->execute([(int)$_POST['id_keranjang'], $idUser]); $harga = $stmt->fetchColumn(); if ($harga !== false) { $qty = max(1, (int)$_POST['qty']); $stmt = $koneksi->prepare('UPDATE keranjang SET qty = ?, subtotal = ? WHERE id_keranjang = ?'); $stmt->execute([$qty, $qty * $harga, (int)$_POST['id_keranjang']]); } }
@@ -53,7 +53,7 @@ $grandTotal = array_sum(array_column($cartItems, 'subtotal'));
                         <h4><?= e($item['nama_barang']) ?></h4>
                         <div class="price"><?= format_rupiah($item['harga_barang']) ?> / item</div>
                     </div>
-                    <form class="qty-form" method="post" action="<?= base_url('customer/cart/customer/cart/index.php-update') ?>">
+                    <form class="qty-form" method="post" action="<?= base_url('customer/cart/index.php?page=cart-update') ?>">
                         <?= csrf_field() ?>
                         <input type="hidden" name="id_keranjang" value="<?= $item['id_keranjang'] ?>">
                         <button type="button" class="btn-mini qty-minus"><i class="fa-solid fa-minus"></i></button>
@@ -61,7 +61,7 @@ $grandTotal = array_sum(array_column($cartItems, 'subtotal'));
                         <button type="button" class="btn-mini qty-plus"><i class="fa-solid fa-plus"></i></button>
                     </form>
                     <strong style="width:130px;text-align:right;display:inline-block;"><?= format_rupiah($item['subtotal']) ?></strong>
-                    <form method="post" action="<?= base_url('customer/cart/customer/cart/index.php-delete') ?>" data-confirm="Hapus produk ini dari keranjang?">
+                    <form method="post" action="<?= base_url('customer/cart/index.php?page=cart-delete') ?>" data-confirm="Hapus produk ini dari keranjang?">
                         <?= csrf_field() ?>
                         <input type="hidden" name="id_keranjang" value="<?= $item['id_keranjang'] ?>">
                         <button type="submit" class="btn-mini btn-remove"><i class="fa-solid fa-trash"></i></button>

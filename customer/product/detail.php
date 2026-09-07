@@ -36,7 +36,7 @@ $recommended = $stmt->fetchAll();
             </div>
 
             <?php if ($product['stok'] > 0): ?>
-                <form method="post" action="<?= base_url('customer/cart/customer/cart/index.php-add') ?>">
+                <form method="post" action="<?= base_url('customer/cart/index.php?page=cart-add') ?>">
                     <?= csrf_field() ?>
                     <input type="hidden" name="id_barang" value="<?= $product['id_barang'] ?>">
                     <div class="product-summary">
@@ -80,7 +80,7 @@ $recommended = $stmt->fetchAll();
         <h2>Direkomendasikan Untuk Anda</h2>
         <div class="recommended-grid">
             <?php foreach ($recommended as $r): ?>
-                <a href="<?= base_url('customer/product/detail.php&id=' . $r['id_barang']) ?>" style="text-decoration:none;color:inherit;">
+                <a href="<?= base_url('customer/product/detail.php?id=' . $r['id_barang']) ?>" style="text-decoration:none;color:inherit;">
                     <div class="trend-card">
                         <img src="<?= product_image($r['gambar']) ?>" alt="<?= e($r['nama_barang']) ?>">
                         <div class="trend-info">
