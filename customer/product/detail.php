@@ -50,7 +50,10 @@ $recommended = $stmt->fetchAll();
                             <button type="button" class="btn-mini" onclick="this.previousElementSibling.stepUp()"><i class="fa-solid fa-plus"></i></button>
                         </div>
                     </div>
-                    <button type="submit" class="btn-add-cart">Add To Cart</button>
+                    <div class="product-actions">
+                        <button type="submit" name="action" value="add_to_cart" class="btn-add-cart">Add To Cart</button>
+                        <button type="submit" name="action" value="buy_now" class="btn-buy-now">Beli Sekarang</button>
+                    </div>
                 </form>
             <?php else: ?>
                 <p style="color:#b3261e;font-weight:700;">Stok habis</p>

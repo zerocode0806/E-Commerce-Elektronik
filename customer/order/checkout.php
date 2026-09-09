@@ -47,9 +47,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label>Metode Pembayaran</label>
                     <div class="payment-methods">
-                        <label><input type="radio" name="metode_pembayaran" value="transfer_bank" checked> Transfer Bank</label>
-                        <label><input type="radio" name="metode_pembayaran" value="e_wallet"> E-Wallet</label>
-                        <label><input type="radio" name="metode_pembayaran" value="cod"> Cash on Delivery (COD)</label>
+                        <label>
+                            <input type="radio" name="metode_pembayaran" value="transfer_bank" checked>
+                            <i class="fa-solid fa-building-columns"></i>
+                            Transfer Bank
+                        </label>
+                        <label>
+                            <input type="radio" name="metode_pembayaran" value="e_wallet">
+                            <i class="fa-solid fa-wallet"></i>
+                            E-Wallet
+                        </label>
+                        <label>
+                            <input type="radio" name="metode_pembayaran" value="cod">
+                            <i class="fa-solid fa-money-bill-wave"></i>
+                            COD
+                        </label>
                     </div>
                 </div>
 

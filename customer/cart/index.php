@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../includes/helpers.php';
 require_login();
 $idUser = (int)current_user()['id_user'];
 if (($_GET['page'] ?? '') === 'cart-add') {
+    $action = $_POST['action'] ?? 'add_to_cart';
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
         $idBarang = (int)($_POST['id_barang'] ?? 0); $qty = max(1, (int)($_POST['qty'] ?? 1));
         $stmt = $koneksi->prepare('SELECT id_keranjang, qty FROM keranjang WHERE id_user = ? AND id_barang = ? LIMIT 1'); $stmt->execute([$idUser, $idBarang]); $existing = $stmt->fetch();
@@ -13,6 +14,9 @@ if (($_GET['page'] ?? '') === 'cart-add') {
         if ($existing) { $newQty = $existing['qty'] + $qty; $stmt = $koneksi->prepare('UPDATE keranjang SET qty = ?, subtotal = ? WHERE id_keranjang = ?'); $stmt->execute([$newQty, $newQty * $harga, $existing['id_keranjang']]); }
         else { $stmt = $koneksi->prepare('INSERT INTO keranjang (id_user, id_barang, qty, subtotal) VALUES (?, ?, ?, ?)'); $stmt->execute([$idUser, $idBarang, $qty, $qty * $harga]); }
         set_flash('success', 'Produk ditambahkan ke keranjang.');
+    }
+    if ($action === 'buy_now') {
+        redirect('customer/cart/index.php');
     }
     redirect('customer/product/detail.php?id=' . (int)($_POST['id_barang'] ?? 0));
 }
@@ -88,4 +92,4 @@ $grandTotal = array_sum(array_column($cartItems, 'subtotal'));
     <?php endif; ?>
 </div>
 
-<?php include __DIR__ . '/../../includes/layouts/footer.php'; ?>
+<?php include __DIR__ . '/../../includes/layouts/footer.php'; ?>    
